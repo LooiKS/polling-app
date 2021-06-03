@@ -1,5 +1,7 @@
 package com.islow.polling.services;
 
+import javax.security.auth.login.AccountNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,6 +36,11 @@ public class AuthService {
 
 	@Autowired
 	private JwtTokenProvider jwtTokenProvider;
+	
+	public User getUserByUsername(String username) throws AccountNotFoundException {
+		return userRepository.findById(username)
+		.orElseThrow(() -> new AccountNotFoundException("Account not found"));
+	}
 
 	@Transactional
 	public ResponseModel<User> addUser(User user) {

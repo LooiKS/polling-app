@@ -1,5 +1,7 @@
 package com.islow.polling.models;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -9,7 +11,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity(name = "USER")
 @Table(name = "USER")
-public class User {
+public class User implements Serializable {
+
+	private static final long serialVersionUID = 904092644465796997L;
+
 	@Id
 	@Column(name = "USERNAME")
 	private String username;

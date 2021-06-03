@@ -23,7 +23,7 @@ public class JwtTokenProvider {
 
 		Date now = new Date();
 		JwtBuilder builder = Jwts.builder().setId(username).setIssuedAt(now).setSubject("token")
-				.setIssuer(username).setExpiration(new Date(now.getTime() + 15 * 60 * 1000)).signWith(signatureAlgorithm, TextCodec.BASE64.decode(SECRET_KEY));
+				.setIssuer(username).setExpiration(new Date(now.getTime() + 24 * 60 * 60 * 1000)).signWith(signatureAlgorithm, TextCodec.BASE64.decode(SECRET_KEY));
 
 		return builder.compact();
 	}
