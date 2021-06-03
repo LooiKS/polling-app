@@ -1,0 +1,60 @@
+<div class="signup-login-container">
+  <h2>Sign Up</h2>
+  <form nz-form [formGroup]="signupForm" class="mt-4">
+    <div class="w-100">
+      <nz-form-item class="mt-3">
+        <nz-form-control nzErrorTip="Please enter your full name.">
+          <nz-input-group>
+            <input type="text" nz-input [formControl]="fullName" placeholder="Your full name"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item class="mt-3">
+        <nz-form-control nzErrorTip="Please enter your username.">
+          <nz-input-group>
+            <input type="text" nz-input [formControl]="username" placeholder="A unique username"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item class="mt-3">
+        <nz-form-control nzErrorTip="Please enter your email.">
+          <nz-input-group>
+            <input type="text" nz-input [formControl]="email" placeholder="Your email"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item class="mt-3">
+        <nz-form-control [nzErrorTip]="passwordError">
+          <nz-input-group [nzSuffix]="passwordVisible ? invisible : visible">
+            <input [type]="passwordVisible ? 'text':'password'" nz-input [formControl]="password"
+                   placeholder="A password between 6 to 20 characters"/>
+          </nz-input-group>
+        </nz-form-control>
+        <ng-template #passwordError>
+          <ng-container ngif="password.errors && (password.dirty || password.touched)">
+            <span *ngIf="password.hasError('required')">Please enter your password.</span>
+            <span
+              *ngIf="password.hasError('minlength') || password.hasError('maxlength')">Password must between 6 to 20 characters.</span>
+          </ng-container>
+        </ng-template>
+      </nz-form-item>
+    </div>
+  </form>
+
+  <button class="w-100 mt-3" [nzLoading]="signUpBtnLoading" nz-button nzType="primary" (click)="submit()">
+    Sign Up
+  </button>
+  <p>
+    Already registered? <a class="text-decoration-none" [href]="routeConstant.LOGIN">Login now!</a>
+  </p>
+</div>
+<ng-template #visible>
+  <i nz-icon nzType="eye" (click)="passwordToggle()"></i>
+</ng-template>
+
+<ng-template #invisible>
+  <i nz-icon nzType="eye-invisible" (click)="passwordToggle()"></i>
+</ng-template>

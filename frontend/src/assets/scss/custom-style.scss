@@ -1,0 +1,80 @@
+body {
+  color: #646C77 !important;
+  background-color: #F5F7FA;
+  position: relative;
+  font-size: 16px !important;
+  line-height: 20px !important;
+  overflow: auto;
+  height: 100%;
+  min-height: 100%;
+}
+
+.signup-login-container {
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.poll-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.ant-input-affix-wrapper, .ant-input-group .ant-input {
+  padding: 8px 11px !important;
+}
+
+.ant-btn {
+  height: 40px !important;
+}
+
+[nz-radio] {
+  display: block;
+  height: 32px;
+  line-height: 32px;
+}
+
+.ant-btn[nztype=outline] {
+  height: 30px !important;
+  font-size: 14px;
+  border-radius: 30px;
+  overflow: hidden;
+  transform: translateZ(0);
+  transition-duration: .4s;
+  box-shadow: 0 2px 0 rgb(0 0 0 / 5%);
+  text-shadow: 0 -1px 0 rgb(0 0 0 / 12%);
+  background: transparent;
+  color: #0477C1;
+  border-color: #0477C1;
+}
+
+.ant-btn[nztype=outline]:hover, .ant-btn[nztype=outline]:focus {
+  border-color: #00487c;
+  box-shadow: 0 3px 6px rgb(0 0 0 / 20%);
+}
+
+.ant-btn[nztype=outline][disabled], .ant-btn-dangerous[disabled]:hover, .ant-btn-dangerous[disabled]:focus, .ant-btn-dangerous[disabled]:active {
+  background: #f5f5f5;
+  border-color: #d9d9d9;
+  text-shadow: none;
+  box-shadow: none;
+}
+
+.text-question {
+  font-size: 22px !important;
+  line-height: 18px !important;
+  font-weight: bold;
+}
+
+.text-choice, .text-creator {
+  font-size: 16px !important;
+  line-height: 14px !important;
+}
+
+.text-vote {
+  font-size: 14px !important;
+  line-height: 12px !important;
+}

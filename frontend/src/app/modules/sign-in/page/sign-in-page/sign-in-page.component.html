@@ -1,0 +1,48 @@
+<div class="signup-login-container">
+  <h2>Sign In</h2>
+  <form nz-form [formGroup]="loginForm" class="mt-4">
+    <div class="w-100">
+      <nz-form-item class="mt-3">
+        <nz-form-control nzErrorTip="Please enter your username.">
+          <nz-input-group [nzPrefix]="userIcon">
+            <input type="text" nz-input formControlName="username" placeholder="Username"
+                   oninput="this.value = this.value.toUpperCase()"
+                   (keyup.enter)="loginBtnDisable ? $event.preventDefault(): submit()"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item class="mt-3">
+        <nz-form-control nzErrorTip="Please enter your password.">
+          <nz-input-group [nzPrefix]="lockIcon" [nzSuffix]="passwordVisible ? invisible : visible">
+            <input [type]="passwordVisible ? 'text':'password'" nz-input formControlName="password"
+                   (keyup.enter)="loginBtnDisable ? $event.preventDefault(): submit()"
+                   placeholder="Password"/>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </form>
+
+  <button class="w-100 mt-3" [nzLoading]="loginBtnLoading" nz-button nzType="primary" (click)="submit()">
+    Sign In
+  </button>
+  <p>
+    Or <a class="text-decoration-none" [href]="routeConstant.REGISTER">Register now!</a>
+  </p>
+</div>
+<ng-template #visible>
+  <i nz-icon nzType="eye" (click)="passwordToggle()"></i>
+</ng-template>
+
+<ng-template #invisible>
+  <i nz-icon nzType="eye-invisible" (click)="passwordToggle()"></i>
+</ng-template>
+
+<ng-template #userIcon>
+  <i nz-icon nzType="user"></i>
+</ng-template>
+
+<ng-template #lockIcon>
+  <i nz-icon nzType="lock" nzTheme="outline"></i>
+</ng-template>
