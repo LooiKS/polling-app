@@ -24,16 +24,16 @@ public class PollController {
     private AuthService authService;
 
 
-	@PostMapping("")
-	public ResponseModel<PollChoiceDto> addPoll(@RequestBody PollChoiceDto pollChoiceDto,
-												Authentication authentication) throws AccountNotFoundException {
-		User user = authService.getUserByUsername(authentication.getName());
-		try {
-			return ResponseModel.success(pollService.addPoll(pollChoiceDto, user));
-		} catch (ValidationException e) {
-			return ResponseModel.failed(e.getMessage());
-		}
-	}
+    @PostMapping("")
+    public ResponseModel<PollChoiceDto> addPoll(@RequestBody PollChoiceDto pollChoiceDto,
+                                                Authentication authentication) throws AccountNotFoundException {
+        User user = authService.getUserByUsername(authentication.getName());
+        try {
+            return ResponseModel.success(pollService.addPoll(pollChoiceDto, user));
+        } catch (ValidationException e) {
+            return ResponseModel.failed(e.getMessage());
+        }
+    }
 
     @GetMapping("")
     public ResponseModel<List<PollChoiceDto>> findPolls(Authentication authentication) throws AccountNotFoundException {
