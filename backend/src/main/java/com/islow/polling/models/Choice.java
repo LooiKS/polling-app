@@ -56,16 +56,6 @@ public class Choice implements Serializable{
 	public void setPoll(Poll poll) {
 		this.poll = poll;
 	}
-
-
-	@ManyToOne(optional = false)
-	private Poll polls;
-
-	public Poll getPolls() {
-		return polls;
-	}
-
-	public void setPolls(Poll polls) {
-		this.polls = polls;
-	}
+	
+	
 }
