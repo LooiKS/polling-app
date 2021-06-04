@@ -6,8 +6,12 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ApiResponseStatus } from 'src/app/constant/api-response-status.constant';
+import { RoutesConstant } from 'src/app/constant/routes.constant';
 import { PollChoiceDto } from 'src/app/modules/shared/model/pollChoiceDto.model';
+import { ResponseModel } from 'src/app/modules/shared/model/response-model.model';
 import { PollService } from 'src/app/modules/shared/service/poll.service';
 
 @Component({
@@ -16,11 +20,12 @@ import { PollService } from 'src/app/modules/shared/service/poll.service';
 })
 export class CreatePollingComponent implements OnInit {
   validateForm!: FormGroup;
-  date: Date;
+  errorMessage: String;
   constructor(
     private fb: FormBuilder,
     private message: NzMessageService,
-    private pollService: PollService
+    private pollService: PollService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -75,16 +80,22 @@ export class CreatePollingComponent implements OnInit {
 
       this.pollService
         .createPoll(pollChoiceDto)
-        .subscribe((pollChoiceDto: PollChoiceDto) => {
-          console.log(pollChoiceDto);
+        .subscribe((pollChoiceDto: ResponseModel<PollChoiceDto>) => {
+          if (pollChoiceDto.status === ApiResponseStatus.SUCCESS) {
+            this.message.success('Poll created successfully.');
+            this.router.navigate([RoutesConstant.POLL]);
+          } else {
+            this.message.error('Please check the error.');
+            this.errorMessage = pollChoiceDto.errorMessage;
+          }
         });
     }
   }
 
   addChoice() {
-    if ((this.validateForm.get('choices') as FormArray).length < 6) {
+    if ((this.validateForm.get('choices') as FormArray).length < 60) {
       (this.validateForm.get('choices') as FormArray).push(
-        this.fb.group({ choice: [null, [Validators.required]] })
+        this.fb.group({ answer: [null, [Validators.required]] })
       );
     } else {
       this.message.warning('Maximum of choices is 6.', {});

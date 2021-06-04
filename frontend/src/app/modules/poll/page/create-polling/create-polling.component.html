@@ -1,6 +1,7 @@
 <nz-row>
     <nz-col nzLg="12" ngSpan="24" class="mx-auto">
         <nz-card nzTitle="Create your poll">
+            <nz-alert *ngIf="errorMessage" nzType="error" [nzMessage]="errorMessage" class="mb-3"></nz-alert>
             <form nz-form [formGroup]="validateForm" class="login-form">
                 <!-- (ngSubmit)="submitForm()" -->
                 <nz-divider nzText="Question" nzOrientation="left" class="mt-0"></nz-divider>

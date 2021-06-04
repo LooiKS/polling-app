@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 
 @NgModule({
   declarations: [PollingPageComponent, CreatePollingComponent],
@@ -22,6 +23,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     NzGridModule,
     NzDividerModule,
     NzButtonModule,
+    NzAlertModule,
   ],
 })
 export class PollModule {}
