@@ -14,7 +14,7 @@ import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzSelectModule} from "ng-zorro-antd/select";
 import {NzCheckboxModule} from "ng-zorro-antd/checkbox";
 import {NzIconModule} from "ng-zorro-antd/icon";
-import {NzModalModule} from "ng-zorro-antd/modal";
+import {NzModalModule, NzModalService} from "ng-zorro-antd/modal";
 import {NzToolTipModule} from "ng-zorro-antd/tooltip";
 import {NzTableModule} from "ng-zorro-antd/table";
 import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
@@ -39,7 +39,7 @@ const exportsModule = [
   NzIconModule,
   NzSelectModule,
   NzDatePickerModule,
-  NzRadioModule
+  NzRadioModule,
 ];
 
 @NgModule({

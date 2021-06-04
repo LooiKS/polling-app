@@ -11,6 +11,11 @@ const routes: Routes = [
     children: [
       {
         path: '',
+        redirectTo: RoutesConstant.LANDING,
+        pathMatch: 'full'
+      },
+      {
+        path: RoutesConstant.LANDING,
         loadChildren: () => import('./modules/landing/landing.module').then(m => m.LandingModule)
       },
       {

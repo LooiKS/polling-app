@@ -5,8 +5,9 @@ export class ApiRoutesConstant {
 
   public static AUTH = '/auth';
   public static POLL = '/polls';
+  public static PUBLIC = '/public';
 
-  public static SIGNIN = '/signin';
+  public static LOGIN = '/login';
   public static SIGNUP = '/signup';
   public static LOGOUT = '/logout';
 

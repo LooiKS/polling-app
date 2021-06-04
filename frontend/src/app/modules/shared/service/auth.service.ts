@@ -5,6 +5,8 @@ import {Router} from "@angular/router";
 import {tap} from "rxjs/operators";
 import {RoutesConstant} from "../../../constant/routes.constant";
 import {SignUpModel} from "../model/sign-up.model";
+import {UserModel} from "../model/user.model";
+import {BehaviorSubject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -16,27 +18,22 @@ export class AuthService {
 
   }
 
-  login(username, password) {
-    return this.http.post<any>(this.baseUrl + ApiRoutesConstant.SIGNIN, {username, password}).pipe(
+  login(userInfo: UserModel) {
+    return this.http.post<any>(this.baseUrl + ApiRoutesConstant.LOGIN, userInfo, {}).pipe(
       tap(res => {
-        // const now = new Date();
-        // localStorage.setItem('jwtToken', res.data.jwtToken);
-        // localStorage.setItem('isLoggedIn', 'true');
-        // localStorage.setItem('expiredAt', ((now.getTime() / 1000) + +res.data.expiresIn).toString());
-        // localStorage.setItem('userInformation', JSON.stringify(res.data.userInformation));
+        if (res.status === 'success') {
+          localStorage.setItem('jwtToken', res.data.token);
+
+        } else {
+
+        }
       }),
       tap(res => {
-        if (res.success) {
+        if (res.status === 'success') {
           this.router.navigate([RoutesConstant.POLL]).then();
         }
       })
     )
-  }
-
-  logout() {
-    sessionStorage.clear();
-    localStorage.clear();
-    this.router.navigate(['/']);
   }
 
   signUp(signUpModel: SignUpModel) {

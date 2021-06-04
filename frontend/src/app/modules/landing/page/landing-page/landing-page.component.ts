@@ -1,5 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {PollModel} from "../../../shared/model/poll.model";
+import {PollService} from "../../../shared/service/poll.service";
+import {PollChoiceDto} from "../../../shared/model/pollChoiceDto.model";
+import {tap} from "rxjs/operators";
+import {IResponse} from 'src/app/modules/shared/model/IResponse.model';
+import {Router} from "@angular/router";
+import {RoutesConstant} from "../../../../constant/routes.constant";
 
 @Component({
   templateUrl: './landing-page.component.html',
@@ -7,46 +12,37 @@ import {PollModel} from "../../../shared/model/poll.model";
 })
 export class LandingPageComponent implements OnInit {
 
-
-  pollList: PollModel[] = [];
+  pollList: PollChoiceDto[] = [];
   dataLoading: boolean = false;
 
   optionRadioValue;
 
-  constructor() {
+  jwtToken: string;
+
+  constructor(private pollService: PollService, private router: Router) {
+    this.jwtToken = localStorage.getItem("jwtToken");
   }
 
   ngOnInit(): void {
-    let date = new Date();
-    date.setDate(date.getDate() + 7);
-    this.pollList = [
-      {
-        vote: 2,
-        question: "U finish FYP GOK?",
-        expirationDateTime: date,
-        createdAt: new Date(),
-        choice: [
-          {
-            id: 1,
-            text: "No, mah noob"
-          },
-          {
-            id: 2,
-            text: "Yes, mah geng"
-          }
-        ],
-        user: {
-          id: 1,
-          email: 'ken@gmail.com',
-          name: 'Chee Kean',
-          username: 'ckkeeen'
-        }
-      }
-    ];
+    this.getPolls();
   }
 
   getPolls(): void {
+    this.dataLoading = true;
+    this.pollService.getAllPolls().pipe(
+      tap((response: IResponse<PollChoiceDto[]>) => {
+        this.pollList = response.data;
+        this.dataLoading = false;
+      })
+    ).subscribe();
+  }
 
+  submitVote(): void {
+    if (this.jwtToken) {
+
+    } else {
+      this.router.navigate([RoutesConstant.LOGIN]);
+    }
   }
 
 

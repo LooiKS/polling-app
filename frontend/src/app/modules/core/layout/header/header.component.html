@@ -1,23 +1,36 @@
 <div class="fixed-top header d-flex  align-items-center bg-theme" xmlns="http://www.w3.org/1999/html">
-  <nz-row nzType="flex" nzAlign="middle" class="container">
-    <nz-col nzLg="18" nzMd="14" nzSm="4" nzXs="4">
-      <h3 class=" pointer text-white" (click)="navigatePage('/')">
-        Polling App
-      </h3>
-    </nz-col>
-    <!--    <nz-col nzLg="14" nzMd="14" nzSm="6" nzXs="6">-->
-    <!--      <ul nz-menu nzTheme="dark" nzMode="horizontal" style="font-size: 16px;">-->
-    <!--        <li nz-menu-item>-->
-    <!--          <a class="text-decoration-none">Tracking</a>-->
-    <!--        </li>-->
-    <!--      </ul>-->
-    <!--    </nz-col>-->
-    <nz-col nzLg="6" nzMd="10" nzSm="14" nzXs="14">
-      <ul nz-menu nzTheme="dark" nzMode="horizontal" class="text-right" style="float:right !important;">
-        <li nz-menu-item (click)="navigatePage(routeConstant.LOGIN)">Login</li>
-        <li nz-menu-item (click)="navigatePage(routeConstant.REGISTER)">Sign Up</li>
-      </ul>
-    </nz-col>
-  </nz-row>
+  <ng-container *ngIf="token">
+    <nz-row nzType="flex" nzAlign="middle" class="container">
+      <nz-col nzLg="12" nzMd="12" nzSm="4" nzXs="4">
+        <h3 class=" pointer text-white" (click)="navigatePage(['/'])">
+          Polling App
+        </h3>
+      </nz-col>
+      <nz-col nzLg="12" nzMd="12" nzSm="14" nzXs="14">
+        <ul nz-menu nzTheme="dark" nzMode="horizontal" class="text-right"
+            style="float:right !important;font-weight:bold;">
+          <li nz-menu-item (click)="navigateMainPage()">All Polls</li>
+          <li nz-menu-item (click)="navigateYourPoll()">Your Polls</li>
+          <li nz-menu-item (click)="logout()">Sign Out</li>
+        </ul>
+      </nz-col>
+    </nz-row>
+  </ng-container>
+  <ng-container *ngIf="!token">
+    <nz-row nzType="flex" nzAlign="middle" class="container">
+      <nz-col nzLg="18" nzMd="14" nzSm="4" nzXs="4">
+        <h3 class=" pointer text-white" (click)="navigatePage(['/'])">
+          Polling App
+        </h3>
+      </nz-col>
+      <nz-col nzLg="6" nzMd="10" nzSm="14" nzXs="14">
+        <ul nz-menu nzTheme="dark" nzMode="horizontal" class="text-right" style="float:right !important;">
+          <li nz-menu-item (click)="navigatePage([routeConstant.LOGIN])">Login</li>
+          <li nz-menu-item (click)="navigatePage([routeConstant.REGISTER])">Sign Up</li>
+        </ul>
+      </nz-col>
+    </nz-row>
+  </ng-container>
+
 
 </div>
