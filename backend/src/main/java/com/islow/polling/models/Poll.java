@@ -18,75 +18,75 @@ import org.hibernate.annotations.CreationTimestamp;
 @Table(name = "POLL")
 public class Poll implements Serializable {
 
-	private static final long serialVersionUID = 1046424549533999025L;
+    private static final long serialVersionUID = 1046424549533999025L;
 
-	@Id()
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "ID")
-	private Long id;
+    @Id()
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID")
+    private Long id;
 
-	@Column(name = "QUESTION")
-	private String question;
+    @Column(name = "QUESTION")
+    private String question;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "CREATED_BY")
-	private User createdBy;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "CREATED_BY")
+    private User createdBy;
 
-	@CreationTimestamp
-	@Column(name = "CREATED_DT")
-	private Date createdDt;
+    @CreationTimestamp
+    @Column(name = "CREATED_DT")
+    private Date createdDt;
 
-	@Column(name = "EXPIRY_DT")
-	private Date expiryDt;
+    @Column(name = "EXPIRY_DT")
+    private Date expiryDt;
 
-	public Poll() {
-	}
+    public Poll() {
+    }
 
-	public Poll(String question, User createdBy, Date expiryDt) {
-		super();
-		this.question = question;
-		this.createdBy = createdBy;
-		this.expiryDt = expiryDt;
-	}
+    public Poll(String question, User createdBy, Date expiryDt) {
+        super();
+        this.question = question;
+        this.createdBy = createdBy;
+        this.expiryDt = expiryDt;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getQuestion() {
-		return question;
-	}
+    public String getQuestion() {
+        return question;
+    }
 
-	public void setQuestion(String question) {
-		this.question = question;
-	}
+    public void setQuestion(String question) {
+        this.question = question;
+    }
 
-	public User getCreatedBy() {
-		return createdBy;
-	}
+    public User getCreatedBy() {
+        return createdBy;
+    }
 
-	public void setCreatedBy(User createdBy) {
-		this.createdBy = createdBy;
-	}
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
+    }
 
-	public Date getCreatedDt() {
-		return createdDt;
-	}
+    public Date getCreatedDt() {
+        return createdDt;
+    }
 
-	public void setCreatedDt(Date createdDt) {
-		this.createdDt = createdDt;
-	}
+    public void setCreatedDt(Date createdDt) {
+        this.createdDt = createdDt;
+    }
 
-	public Date getExpiryDt() {
-		return expiryDt;
-	}
+    public Date getExpiryDt() {
+        return expiryDt;
+    }
 
-	public void setExpiryDt(Date expiryDt) {
-		this.expiryDt = expiryDt;
-	}
+    public void setExpiryDt(Date expiryDt) {
+        this.expiryDt = expiryDt;
+    }
 
 }
