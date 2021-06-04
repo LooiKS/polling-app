@@ -2,6 +2,7 @@ package com.islow.polling.controllers;
 
 import com.islow.polling.dto.PollChoiceDto;
 import com.islow.polling.dto.ResponseModel;
+import com.islow.polling.exceptions.ValidationException;
 import com.islow.polling.models.User;
 import com.islow.polling.services.AuthService;
 import com.islow.polling.services.PollService;
@@ -23,16 +24,21 @@ public class PollController {
     private AuthService authService;
 
 
-    @PostMapping("")
-    public ResponseModel<PollChoiceDto> addPoll(@RequestBody PollChoiceDto pollChoiceDto,
-                                                Authentication authentication) throws AccountNotFoundException {
-        User user = authService.getUserByUsername(authentication.getName());
-        return ResponseModel.success(pollService.addPoll(pollChoiceDto, user));
-    }
+	@PostMapping("")
+	public ResponseModel<PollChoiceDto> addPoll(@RequestBody PollChoiceDto pollChoiceDto,
+												Authentication authentication) throws AccountNotFoundException {
+		User user = authService.getUserByUsername(authentication.getName());
+		try {
+			return ResponseModel.success(pollService.addPoll(pollChoiceDto, user));
+		} catch (ValidationException e) {
+			return ResponseModel.failed(e.getMessage());
+		}
+	}
 
     @GetMapping("")
     public ResponseModel<List<PollChoiceDto>> findPolls(Authentication authentication) throws AccountNotFoundException {
         User user = authService.getUserByUsername(authentication.getName());
         return ResponseModel.success(pollService.findPolls(user.getUsername()));
     }
+
 }
