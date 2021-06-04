@@ -73,7 +73,11 @@ export class CreatePollingComponent implements OnInit {
       // POST data
       let pollChoiceDto: PollChoiceDto = this.validateForm.value;
 
-      this.pollService.createPoll(pollChoiceDto).subscribe();
+      this.pollService
+        .createPoll(pollChoiceDto)
+        .subscribe((pollChoiceDto: PollChoiceDto) => {
+          console.log(pollChoiceDto);
+        });
     }
   }
 

@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {PublicLayoutComponent} from "./modules/core/layout/public-layout/public-layout.component";
 import {RoutesConstant} from "./constant/routes.constant";
+import { AuthGuard } from './modules/core/auth-guard/auth-guard';
 
 const routes: Routes = [
   {
@@ -22,7 +23,8 @@ const routes: Routes = [
       },
       {
         path: RoutesConstant.POLL,
-        loadChildren: () => import('./modules/poll/poll.module').then(m => m.PollModule)
+        loadChildren: () => import('./modules/poll/poll.module').then(m => m.PollModule),
+        canActivate: [AuthGuard]
       }
     ]
   },

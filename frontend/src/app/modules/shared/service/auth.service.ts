@@ -42,4 +42,10 @@ export class AuthService {
   signUp(signUpModel: SignUpModel) {
     return this.http.post<any>(this.baseUrl + ApiRoutesConstant.SIGNUP, signUpModel);
   }
+
+  isAuthenticate() : boolean{
+    //todo: change to check token, waiting for the token implementation from login
+    return true;
+  }
+
 }
