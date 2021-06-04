@@ -14,6 +14,8 @@ public class UserPrincipal implements UserDetails {
 
 	private String username;
 
+	private String fullName;
+
 	@JsonIgnore
 	private String password;
 
@@ -22,6 +24,7 @@ public class UserPrincipal implements UserDetails {
 	public UserPrincipal(User user) {
 		super();
 		this.username = user.getUsername();
+		this.fullName = user.getFullName();
 		this.password = user.getPassword();
 		this.email = user.getEmail();
 	}
@@ -40,6 +43,14 @@ public class UserPrincipal implements UserDetails {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 
 	@Override

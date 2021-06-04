@@ -26,11 +26,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		return new JwtFilter();
 	}
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-
+//	@Bean
+//	public PasswordEncoder passwordEncoder() {
+//		return new BCryptPasswordEncoder();
+//	}
+//
 	@Bean
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -39,7 +39,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(customUserDetailService).passwordEncoder(passwordEncoder());
+		auth.userDetailsService(customUserDetailService);//.passwordEncoder(passwordEncoder());
 	}
 
 	@Override

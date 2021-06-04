@@ -2,6 +2,8 @@ import {Injectable} from "@angular/core";
 import {ApiRoutesConstant} from "../../../constant/api-routes.constant";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
+import { PollChoiceDto } from "../model/pollChoiceDto.model";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +19,8 @@ export class PollService {
     return this.http.get<any>(this.baseUrl + ApiRoutesConstant.SIGNIN, {});
   }
 
-  createPoll() {
-
+  public createPoll(pollChoiceDto: PollChoiceDto) :Observable<PollChoiceDto>{
+    return this.http.post<PollChoiceDto>(this.baseUrl, pollChoiceDto);
   }
 
   getUserPoll() {

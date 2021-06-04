@@ -19,10 +19,13 @@ public class User implements Serializable {
 	@Column(name = "USERNAME")
 	private String username;
 
+	@Column(name = "FULL_NAME")
+	private String fullName;
+
 	@Column(name = "EMAIL")
 	private String email;
 
-	@JsonIgnore
+//	@JsonIgnore
 	@Column(name = "PASSWORD")
 	private String password;
 
@@ -32,6 +35,14 @@ public class User implements Serializable {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 
 	public String getEmail() {

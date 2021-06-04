@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.islow.polling.models.User;
 import com.islow.polling.dto.JwtToken;
+import com.islow.polling.dto.LoginUserDto;
+import com.islow.polling.dto.RegisterUserDto;
 import com.islow.polling.dto.ResponseModel;
 import com.islow.polling.services.AuthService;
 
@@ -20,12 +22,12 @@ public class AuthController {
 	private AuthService authService;
 	
 	@PostMapping("login")
-	public ResponseModel<JwtToken> login(@RequestParam String username, @RequestParam String password) {
-		return authService.login(username, password);		
+	public ResponseModel<JwtToken> login(@RequestBody LoginUserDto user) {
+		return authService.login(user.getUsername(), user.getPassword());		
 	}
 	
 	@PostMapping("register")
-	public ResponseModel<User> register(@RequestBody User user) {
+	public ResponseModel<String> register(@RequestBody RegisterUserDto user) {
 		return authService.addUser(user);
 	}
 }

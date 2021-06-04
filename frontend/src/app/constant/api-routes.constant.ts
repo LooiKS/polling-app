@@ -4,7 +4,7 @@ export class ApiRoutesConstant {
   public static BASE_URL = environment.apiUrl;
 
   public static AUTH = '/auth';
-  public static POLL = '/poll';
+  public static POLL = '/polls';
 
   public static SIGNIN = '/signin';
   public static SIGNUP = '/signup';

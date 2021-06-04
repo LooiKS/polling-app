@@ -1,1 +1,56 @@
-<p>create-polling works!</p>
+<nz-row>
+    <nz-col nzLg="12" ngSpan="24" class="mx-auto">
+        <nz-card nzTitle="Create your poll">
+            <form nz-form [formGroup]="validateForm" class="login-form">
+                <!-- (ngSubmit)="submitForm()" -->
+                <nz-divider nzText="Question" nzOrientation="left" class="mt-0"></nz-divider>
+                <nz-form-item formGroupName="poll">
+                    <nz-form-control nzErrorTip="Please input your poll question!">
+                        <nz-form-label>What do you want to ask?</nz-form-label>
+                        <nz-input-group nzPrefixIcon="question">
+                            <input type="text" nz-input formControlName="question" placeholder="Question" />
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-divider nzText="Expiry Date" nzOrientation="left" class="mt-0"></nz-divider>
+                <nz-form-item formGroupName="poll">
+                    <nz-form-control [nzErrorTip]="expiryErrorTpl">
+                        <nz-form-label>When do you want it to be expired?</nz-form-label>
+                        <nz-input-group nzPrefixIcon="field-time">
+                            <nz-date-picker nzBorderless nzShowTime formControlName="expiryDt" class="w-100" nzPlaceHolder="Expiry Date"></nz-date-picker>
+                            <!-- <input type="datetime" nz-input formControlName="expiryDt" placeholder="Question" /> -->
+                        </nz-input-group>
+                        <ng-template #expiryErrorTpl let-control>
+                            <ng-container *ngIf="control.hasError('required')">
+                                Please choose your poll expiry date!
+                            </ng-container>
+                            <ng-container *ngIf="control.hasError('beforeNow')">
+                                Expiry date must be before current date time!
+                            </ng-container>
+                        </ng-template>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-divider nzText="Choices" nzOrientation="left"></nz-divider>
+                <nz-form-label>What are the options?</nz-form-label>
+                <nz-form-item formArrayName="choices" *ngFor="let item of validateForm.get('choices').controls; let i = index;" [formGroup]="item">
+                    <nz-form-control nzErrorTip="Please input your choice!" [formGroupName]="i">
+                        <nz-input-group nzPrefixIcon="form">
+                            <input type="text" nz-input formControlName="answer" [placeholder]="'Choice ' + (i + 1)" />
+                        </nz-input-group>
+                    </nz-form-control>
+                    <button *ngIf="i > 1" nz-button nzType="text" (click)="deleteChoice(i)"><i nz-icon nzType="delete"></i></button>
+                </nz-form-item>
+                <div class="text-end">
+                    <button nz-button nzShape="round" (click)="addChoice()"><i nz-icon nzType="plus" class="align-text-top"></i>Add choice</button>
+                </div>
+            </form>
+            <div class="mx-auto text-center">
+                <button nz-button [nzType]="'primary'" (click)="create()">Create</button>
+            </div>
+        </nz-card>
+    </nz-col>
+</nz-row>
+
+<ng-template #deleteTpl>
+    <button nz-button nzType="text"><i nz-icon nzType="delete"></i></button>
+</ng-template>
