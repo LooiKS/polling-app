@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.islow.polling.models.User;
 import com.islow.polling.dto.PollChoiceDto;
 import com.islow.polling.dto.ResponseModel;
+import com.islow.polling.exceptions.ValidationException;
 import com.islow.polling.services.AuthService;
 import com.islow.polling.services.PollService;
 
@@ -29,6 +30,10 @@ public class PollController {
 	public ResponseModel<PollChoiceDto> addPoll(@RequestBody PollChoiceDto pollChoiceDto,
 			Authentication authentication) throws AccountNotFoundException {
 		User user = authService.getUserByUsername(authentication.getName());
-		return ResponseModel.success(pollService.addPoll(pollChoiceDto, user));
+		try {
+			return ResponseModel.success(pollService.addPoll(pollChoiceDto, user));
+		} catch (ValidationException e) {
+			return ResponseModel.failed(e.getMessage());
+		}
 	}
 }
