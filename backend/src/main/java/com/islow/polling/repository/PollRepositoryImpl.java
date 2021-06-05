@@ -34,4 +34,21 @@ public class PollRepositoryImpl implements PollRepositoryCustom {
         }
         return results;
     }
+
+    @Override
+    public Poll findPollByPollId(String pollId) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Poll> query = cb.createQuery(Poll.class);
+        Root<Poll> root = query.from(Poll.class);
+        Predicate[] predicates = new Predicate[1];
+        predicates[0] = cb.equal(root.get("id"), pollId);
+        query.select(root).where(predicates);
+
+        List<Poll> results = em.createQuery(query).getResultList();
+        if (results.isEmpty()) {
+            return null;
+        }
+        return results.get(0);
+    }
+
 }

@@ -10,9 +10,10 @@ import {FormsModule} from '@angular/forms';
 import {NzGridModule} from 'ng-zorro-antd/grid';
 import {NzDividerModule} from 'ng-zorro-antd/divider';
 import {NzButtonModule} from 'ng-zorro-antd/button';
+import { AnswerPollPageComponent } from './page/answer-poll-page/answer-poll-page.component';
 
 @NgModule({
-  declarations: [PollingPageComponent, CreatePollingComponent],
+  declarations: [PollingPageComponent, CreatePollingComponent, AnswerPollPageComponent],
   imports: [
     SharedModule,
     PollRoutingModule,

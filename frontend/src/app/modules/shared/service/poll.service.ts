@@ -24,6 +24,12 @@ export class PollService {
 
   getUserPoll() {
     return this.http.get<any>(this.baseUrl, {});
+  }
+
+  getParticularPoll(pollId: string) {
+    return this.http.get<any>(this.baseUrl + ApiRoutesConstant.PARTICULAR, {params: {pollId: pollId}});
 
   }
+
+
 }

@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import static java.lang.Long.parseLong;
+
 @Service
 public class PollService {
 
@@ -94,6 +96,31 @@ public class PollService {
         List<PollChoiceDto> pollChoiceDto = new ArrayList<>();
         if (!polls.isEmpty() && !choiceList.isEmpty()) {
             pollChoiceDto = pollChoiceMapping(polls, choiceList);
+        }
+
+        return pollChoiceDto;
+    }
+
+    public PollChoiceDto findParticularPoll(String username, String pollId) {
+        Poll poll = pollRepository.findPollByPollId(pollId);
+
+        Iterable<Choice> choices = choiceRepository.findAll();
+        List<Choice> choiceList =
+                StreamSupport.stream(choices.spliterator(), false)
+                        .collect(Collectors.toList());
+
+        PollChoiceDto pollChoiceDto = new PollChoiceDto();
+
+
+        if (poll != null && !choiceList.isEmpty()) {
+            List<Choice> choicesList = choiceList.stream().filter(choice -> choice.getPoll().getId().equals(parseLong(pollId))).collect(Collectors.toList());
+            List<ChoiceDto> choiceDtoList = new ArrayList<>();
+            choicesList.forEach(choice -> {
+                ChoiceDto choiceDto = new ChoiceDto(choice);
+                choiceDtoList.add(choiceDto);
+            });
+            PollDto pollDto = new PollDto(poll);
+            pollChoiceDto = new PollChoiceDto(pollDto, choiceDtoList);
         }
 
         return pollChoiceDto;

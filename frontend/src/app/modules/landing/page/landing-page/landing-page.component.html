@@ -9,14 +9,11 @@
       </div>
 
       <div class="mt-3 text-choice">
-        <nz-radio-group [(ngModel)]="optionRadioValue">
-
-          <label *ngFor="let choice of item.choices" nz-radio [nzValue]="choice.answer">{{choice.answer}}</label>
-        </nz-radio-group>
+        <p *ngFor="let choice of item.choices;let i = index"><b>{{i}}.{{choice.answer}}</b></p>
       </div>
 
       <div class="mt-3">
-        <button nz-button nzType="outline" class="mr-2" (click)="submitVote()">Vote</button>
+        <button nz-button nzType="outline" class="mr-2" (click)="submitVote(item.poll.id)">Vote</button>
         {{1}} {{2 > 1 ? 'votes' : 'vote'}} • {{(item.poll.expiryDt | sDate)}}
       </div>
     </nz-card>

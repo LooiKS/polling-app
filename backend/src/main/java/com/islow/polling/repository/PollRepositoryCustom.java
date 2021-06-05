@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface PollRepositoryCustom {
     List<Poll> findPolls(String username);
+    Poll findPollByPollId(String pollId);
 }

@@ -42,9 +42,10 @@ export class LandingPageComponent implements OnInit {
     ).subscribe();
   }
 
-  submitVote(): void {
+  submitVote(pollId: number): void {
     if (this.isAuthenticated) {
-
+      this.router.navigate([RoutesConstant.POLL
+        , RoutesConstant.ANSWER], {queryParams: {pollId: pollId}});
     } else {
       this.router.navigate([RoutesConstant.LOGIN]);
     }

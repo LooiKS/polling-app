@@ -25,9 +25,7 @@ export class PollingPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.getPolls();
-
   }
 
   getPolls(): void {
@@ -39,10 +37,5 @@ export class PollingPageComponent implements OnInit {
       })
     ).subscribe();
   }
-
-  submitVote(): void {
-
-  }
-
 
 }
