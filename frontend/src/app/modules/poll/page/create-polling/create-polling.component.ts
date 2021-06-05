@@ -21,6 +21,7 @@ import { PollService } from 'src/app/modules/shared/service/poll.service';
 export class CreatePollingComponent implements OnInit {
   validateForm!: FormGroup;
   errorMessage: String;
+  isLoading = false;
   constructor(
     private fb: FormBuilder,
     private message: NzMessageService,
@@ -75,12 +76,14 @@ export class CreatePollingComponent implements OnInit {
 
     console.log(this.validateForm.valid);
     if (this.validateForm.valid) {
+      this.isLoading = true;
       // POST data
       let pollChoiceDto: PollChoiceDto = this.validateForm.value;
 
       this.pollService
         .createPoll(pollChoiceDto)
         .subscribe((pollChoiceDto: ResponseModel<PollChoiceDto>) => {
+          this.isLoading = false;
           if (pollChoiceDto.status === ApiResponseStatus.SUCCESS) {
             this.message.success('Poll created successfully.');
             this.router.navigate([RoutesConstant.POLL]);

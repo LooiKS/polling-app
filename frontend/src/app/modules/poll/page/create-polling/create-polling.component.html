@@ -42,11 +42,11 @@
                     <button *ngIf="i > 1" nz-button nzType="text" (click)="deleteChoice(i)"><i nz-icon nzType="delete"></i></button>
                 </nz-form-item>
                 <div class="text-end">
-                    <button nz-button nzShape="round" (click)="addChoice()"><i nz-icon nzType="plus" class="align-text-top"></i>Add choice</button>
+                    <button nz-button nzShape="round" (click)="addChoice()" [disabled]="isLoading"><i nz-icon nzType="plus" class="align-text-top"></i>Add choice</button>
                 </div>
             </form>
             <div class="mx-auto text-center">
-                <button nz-button [nzType]="'primary'" (click)="create()">Create</button>
+                <button nz-button [nzType]="'primary'" (click)="create()" [nzLoading]="isLoading" >Create</button>
             </div>
         </nz-card>
     </nz-col>
