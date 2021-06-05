@@ -6,7 +6,8 @@ import {tap} from "rxjs/operators";
 import {RoutesConstant} from "../../../constant/routes.constant";
 import {SignUpModel} from "../model/sign-up.model";
 import {UserModel} from "../model/user.model";
-import {BehaviorSubject} from "rxjs";
+import {Store} from "@ngxs/store";
+import {SetJWTToken} from "../../core/state/auth.action";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ import {BehaviorSubject} from "rxjs";
 export class AuthService {
   readonly baseUrl: string = ApiRoutesConstant.BASE_URL + ApiRoutesConstant.AUTH;
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router, private store: Store) {
 
   }
 
@@ -23,9 +24,8 @@ export class AuthService {
       tap(res => {
         if (res.status === 'success') {
           localStorage.setItem('jwtToken', res.data.token);
-
-        } else {
-
+          sessionStorage.setItem('jwtToken', res.data.token);
+          this.store.dispatch(new SetJWTToken(res.data.token));
         }
       }),
       tap(res => {
@@ -38,11 +38,6 @@ export class AuthService {
 
   signUp(signUpModel: SignUpModel) {
     return this.http.post<any>(this.baseUrl + ApiRoutesConstant.SIGNUP, signUpModel);
-  }
-
-  isAuthenticate() : boolean{
-    //todo: change to check token, waiting for the token implementation from login
-    return true;
   }
 
 }

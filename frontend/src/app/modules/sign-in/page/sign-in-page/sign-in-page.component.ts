@@ -48,7 +48,7 @@ export class SignInPageComponent implements OnInit {
       username: this.username.value,
       password: this.password.value,
     }
-    console.log(cryptoPassword);
+
     this.loginBtnLoading = true;
     this.authService.login(userInfo).pipe(
       tap((res: IResponse<any>) => {

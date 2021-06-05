@@ -8,11 +8,11 @@ export class AccessTokenInterceptor implements HttpInterceptor {
   jwtToken: string;
 
   constructor() {
-    this.jwtToken = localStorage.getItem("jwtToken");
-    console.log(this.jwtToken);
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    this.jwtToken = localStorage.getItem("jwtToken");
+    console.log(this.jwtToken);
     if (this.jwtToken) {
       request = request.clone({
         setHeaders: {

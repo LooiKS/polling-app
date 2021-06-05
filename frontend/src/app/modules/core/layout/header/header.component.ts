@@ -1,8 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {RoutesConstant} from "../../../../constant/routes.constant";
 import {Router} from "@angular/router";
-import {AuthService} from "../../../shared/service/auth.service";
-import {BehaviorSubject} from "rxjs";
+import {Observable} from "rxjs";
+import {Select, Store} from "@ngxs/store";
+import {AuthState} from "../../state/auth.state";
+import {ClearAuthState} from "../../state/auth.action";
 
 @Component({
   selector: 'app-header',
@@ -11,17 +13,12 @@ import {BehaviorSubject} from "rxjs";
 })
 export class HeaderComponent implements OnInit {
 
+  @Select(AuthState.isAuthenticated) isAuthenticated$: Observable<boolean>;
 
   routeConstant = RoutesConstant;
   jwtToken: string;
-  token = new BehaviorSubject(this.theItem);
 
-  constructor(private router: Router, private authService: AuthService) {
-    this.token.next(localStorage.getItem("jwtToken"));
-    this.token.subscribe(value => {
-      this.jwtToken = value;
-      console.log(this.jwtToken);
-    })
+  constructor(private router: Router, private store: Store) {
   }
 
   ngOnInit(): void {
@@ -31,27 +28,11 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(route);
   }
 
-  navigateMainPage(): void {
-    this.router.navigate([RoutesConstant.LANDING]);
-  }
-
-  navigateYourPoll(): void {
-    this.router.navigate([RoutesConstant.POLL, RoutesConstant.VIEW]);
-  }
-
   logout(): void {
     sessionStorage.clear();
     localStorage.clear();
-    this.token = null;
+    this.store.dispatch(new ClearAuthState());
     this.router.navigate(['/']);
   }
 
-
-  set theItem(value) {
-    this.token.next(value); // this will make sure to tell every subscriber about the change.
-  }
-
-  get theItem() {
-    return localStorage.getItem('theItem');
-  }
 }

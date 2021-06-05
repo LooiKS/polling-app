@@ -3,7 +3,6 @@ import {RouterModule, Routes} from '@angular/router';
 import {RoutesConstant} from "../../constant/routes.constant";
 import {CreatePollingComponent} from "./page/create-polling/create-polling.component";
 import {PollingPageComponent} from "./page/polling-page/polling-page.component";
-import {UserPollPageComponent} from './page/user-poll-page/user-poll-page.component';
 
 const routes: Routes = [
   {
@@ -16,10 +15,6 @@ const routes: Routes = [
       {
         path: RoutesConstant.CREATE,
         component: CreatePollingComponent
-      },
-      {
-        path: RoutesConstant.VIEW,
-        component: UserPollPageComponent
       },
     ]
   }

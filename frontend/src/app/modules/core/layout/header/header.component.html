@@ -1,5 +1,5 @@
 <div class="fixed-top header d-flex  align-items-center bg-theme" xmlns="http://www.w3.org/1999/html">
-  <ng-container *ngIf="token">
+  <ng-container *ngIf="(isAuthenticated$ | async)">
     <nz-row nzType="flex" nzAlign="middle" class="container">
       <nz-col nzLg="12" nzMd="12" nzSm="4" nzXs="4">
         <h3 class=" pointer text-white" (click)="navigatePage(['/'])">
@@ -9,14 +9,14 @@
       <nz-col nzLg="12" nzMd="12" nzSm="14" nzXs="14">
         <ul nz-menu nzTheme="dark" nzMode="horizontal" class="text-right"
             style="float:right !important;font-weight:bold;">
-          <li nz-menu-item (click)="navigateMainPage()">All Polls</li>
-          <li nz-menu-item (click)="navigateYourPoll()">Your Polls</li>
+          <li nz-menu-item (click)="navigatePage([routeConstant.LANDING])">All Polls</li>
+          <li nz-menu-item (click)="navigatePage([routeConstant.POLL])">Your Polls</li>
           <li nz-menu-item (click)="logout()">Sign Out</li>
         </ul>
       </nz-col>
     </nz-row>
   </ng-container>
-  <ng-container *ngIf="!token">
+  <ng-container *ngIf="!(isAuthenticated$ | async)">
     <nz-row nzType="flex" nzAlign="middle" class="container">
       <nz-col nzLg="18" nzMd="14" nzSm="4" nzXs="4">
         <h3 class=" pointer text-white" (click)="navigatePage(['/'])">

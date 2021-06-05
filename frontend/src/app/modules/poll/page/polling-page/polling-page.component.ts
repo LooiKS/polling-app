@@ -4,7 +4,9 @@ import {IResponse} from "../../../shared/model/IResponse.model";
 import {PollChoiceDto} from "../../../shared/model/pollChoiceDto.model";
 import {PollService} from "../../../shared/service/poll.service";
 import {Router} from "@angular/router";
-import {RoutesConstant} from "../../../../constant/routes.constant";
+import {Select, Store} from "@ngxs/store";
+import {AuthState} from "../../../core/state/auth.state";
+import {Observable} from "rxjs";
 
 @Component({
   templateUrl: './polling-page.component.html',
@@ -15,16 +17,18 @@ export class PollingPageComponent implements OnInit {
   dataLoading: boolean = false;
 
   optionRadioValue;
-  jwtToken: string;
 
-  constructor(private pollService: PollService, private router: Router) {
-    this.jwtToken = localStorage.getItem("jwtToken");
+  @Select(AuthState.isAuthenticated) isAuthenticated$: Observable<boolean>;
+
+  constructor(private pollService: PollService, private router: Router, private store: Store) {
+
   }
 
   ngOnInit(): void {
-    this.getPolls();
-  }
 
+    this.getPolls();
+
+  }
 
   getPolls(): void {
     this.dataLoading = true;
@@ -36,13 +40,8 @@ export class PollingPageComponent implements OnInit {
     ).subscribe();
   }
 
-
   submitVote(): void {
-    if (this.jwtToken) {
 
-    } else {
-      this.router.navigate([RoutesConstant.LOGIN]);
-    }
   }
 
 

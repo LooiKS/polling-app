@@ -2,7 +2,7 @@
   <div *ngIf="pollList.length>0" class="poll-container">
     <nz-card *ngFor="let item of pollList" class="mb-3">
       <p class="text-creator" style="line-height: 0">Posted by <b>{{item.poll.createdBy}}</b></p>
-      <p class="text-creator">{{item.poll.createdDt | date}}</p>
+      <p class="text-creator">{{item.poll.createdDt | sDate}}</p>
 
       <div class="text-question">
         Question: {{item.poll.question}}
@@ -17,7 +17,7 @@
 
       <div class="mt-3">
         <button nz-button nzType="outline" class="mr-2" (click)="submitVote()">Vote</button>
-        {{1}} {{2 > 1 ? 'votes' : 'vote'}} • {{(item.poll.expiryDt | date)}}
+        {{1}} {{2 > 1 ? 'votes' : 'vote'}} • {{(item.poll.expiryDt | sDate)}}
       </div>
     </nz-card>
   </div>
