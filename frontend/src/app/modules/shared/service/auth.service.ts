@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {ApiRoutesConstant} from "../../../constant/api-routes.constant";
 import {HttpClient} from "@angular/common/http";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {tap} from "rxjs/operators";
 import {RoutesConstant} from "../../../constant/routes.constant";
 import {SignUpModel} from "../model/sign-up.model";
@@ -15,7 +15,7 @@ import {SetJWTToken} from "../../core/state/auth.action";
 export class AuthService {
   readonly baseUrl: string = ApiRoutesConstant.BASE_URL + ApiRoutesConstant.AUTH;
 
-  constructor(private http: HttpClient, private router: Router, private store: Store) {
+  constructor(private http: HttpClient, private router: Router, private store: Store, private route: ActivatedRoute) {
 
   }
 
@@ -30,7 +30,7 @@ export class AuthService {
       }),
       tap(res => {
         if (res.status === 'success') {
-          this.router.navigate([RoutesConstant.POLL]).then();
+          this.router.navigate([this.route.snapshot.queryParams['returnUrl'] || RoutesConstant.POLL]).then();
         }
       })
     )

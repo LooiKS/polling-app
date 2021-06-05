@@ -20,12 +20,10 @@ const routes: Routes = [
       },
       {
         path: RoutesConstant.LOGIN,
-        canActivate: [AuthGuard],
         loadChildren: () => import('./modules/sign-in/sign-in.module').then(m => m.SignInModule)
       },
       {
         path: RoutesConstant.REGISTER,
-        canActivate: [AuthGuard],
         loadChildren: () => import('./modules/sign-up/sign-up.module').then(m => m.SignUpModule)
       },
       {
