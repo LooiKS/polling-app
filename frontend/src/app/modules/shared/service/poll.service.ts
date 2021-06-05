@@ -12,12 +12,12 @@ import { ResponseModel } from "../model/response-model.model";
 export class PollService {
   readonly baseUrl: string = ApiRoutesConstant.BASE_URL + ApiRoutesConstant.POLL;
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient) {
 
   }
 
   getAllPolls() {
-    return this.http.get<any>(this.baseUrl + ApiRoutesConstant.SIGNIN, {});
+    return this.http.get<any>(ApiRoutesConstant.BASE_URL + ApiRoutesConstant.PUBLIC + ApiRoutesConstant.POLL, {});
   }
 
   public createPoll(pollChoiceDto: PollChoiceDto) :Observable<ResponseModel<PollChoiceDto>>{
@@ -25,6 +25,13 @@ export class PollService {
   }
 
   getUserPoll() {
+    return this.http.get<any>(this.baseUrl, {});
+  }
+
+  getParticularPoll(pollId: string) {
+    return this.http.get<any>(this.baseUrl + ApiRoutesConstant.PARTICULAR, {params: {pollId: pollId}});
 
   }
+
+
 }

@@ -1,5 +1,14 @@
 import {Component, OnInit} from '@angular/core';
-import {PollModel} from "../../../shared/model/poll.model";
+import {PollService} from "../../../shared/service/poll.service";
+import {PollChoiceDto} from "../../../shared/model/pollChoiceDto.model";
+import {tap} from "rxjs/operators";
+import {IResponse} from 'src/app/modules/shared/model/IResponse.model';
+import {Router} from "@angular/router";
+import {RoutesConstant} from "../../../../constant/routes.constant";
+import {Select, Store} from "@ngxs/store";
+import {AuthState} from "../../../core/state/auth.state";
+import {Observable} from "rxjs";
+import {SelectSnapshot} from "@ngxs-labs/select-snapshot";
 
 @Component({
   templateUrl: './landing-page.component.html',
@@ -7,46 +16,39 @@ import {PollModel} from "../../../shared/model/poll.model";
 })
 export class LandingPageComponent implements OnInit {
 
+  @Select(AuthState.isAuthenticated) isAuthenticated$: Observable<boolean>;
+  @SelectSnapshot(AuthState.isAuthenticated) isAuthenticated;
 
-  pollList: PollModel[] = [];
+  pollList: PollChoiceDto[] = [];
   dataLoading: boolean = false;
 
   optionRadioValue;
 
-  constructor() {
+
+  constructor(private pollService: PollService, private router: Router, private store: Store) {
   }
 
   ngOnInit(): void {
-    let date = new Date();
-    date.setDate(date.getDate() + 7);
-    this.pollList = [
-      {
-        vote: 2,
-        question: "U finish FYP GOK?",
-        expirationDateTime: date,
-        createdAt: new Date(),
-        choice: [
-          {
-            id: 1,
-            text: "No, mah noob"
-          },
-          {
-            id: 2,
-            text: "Yes, mah geng"
-          }
-        ],
-        user: {
-          id: 1,
-          email: 'ken@gmail.com',
-          name: 'Chee Kean',
-          username: 'ckkeeen'
-        }
-      }
-    ];
+    this.getPolls();
   }
 
   getPolls(): void {
+    this.dataLoading = true;
+    this.pollService.getAllPolls().pipe(
+      tap((response: IResponse<PollChoiceDto[]>) => {
+        this.pollList = response.data;
+        this.dataLoading = false;
+      })
+    ).subscribe();
+  }
 
+  submitVote(pollId: number): void {
+    if (this.isAuthenticated) {
+      this.router.navigate([RoutesConstant.POLL
+        , RoutesConstant.ANSWER], {queryParams: {pollId: pollId}});
+    } else {
+      this.router.navigate([RoutesConstant.LOGIN]);
+    }
   }
 
 

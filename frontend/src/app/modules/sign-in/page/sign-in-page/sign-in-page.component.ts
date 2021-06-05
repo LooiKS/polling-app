@@ -4,10 +4,15 @@ import {RoutesConstant} from "../../../../constant/routes.constant";
 import {markFormGroupTouched} from "../../../shared/util/form.util";
 import {AuthService} from "../../../shared/service/auth.service";
 import CryptoJS from 'crypto-js';
+import {UserModel} from "../../../shared/model/user.model";
+import {NzModalService} from "ng-zorro-antd/modal";
+import {tap} from "rxjs/operators";
+import {IResponse} from "../../../shared/model/IResponse.model";
 
 @Component({
   templateUrl: './sign-in-page.component.html',
-  styleUrls: ['./sign-in-page.component.scss']
+  styleUrls: ['./sign-in-page.component.scss'],
+  providers: [NzModalService],
 })
 export class SignInPageComponent implements OnInit {
 
@@ -17,7 +22,7 @@ export class SignInPageComponent implements OnInit {
   loginBtnLoading: boolean = false;
   routeConstant = RoutesConstant;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private modal: NzModalService) {
 
   }
 
@@ -39,11 +44,23 @@ export class SignInPageComponent implements OnInit {
     }
 
     const cryptoPassword = CryptoJS.SHA256(this.password.value).toString();
+    let userInfo: UserModel = {
+      username: this.username.value,
+      password: this.password.value,
+    }
 
     this.loginBtnLoading = true;
-    this.authService.login(this.username, cryptoPassword).subscribe(res => {
-      this.loginBtnLoading = false;
-    })
+    this.authService.login(userInfo).pipe(
+      tap((res: IResponse<any>) => {
+        this.loginBtnLoading = false;
+        if (res.status !== 'success') {
+          this.modal.success({
+            nzTitle: 'Failed',
+            nzContent: res.errorMessage,
+          });
+        }
+      })
+    ).subscribe();
 
   }
 

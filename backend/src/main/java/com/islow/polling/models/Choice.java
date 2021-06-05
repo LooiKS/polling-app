@@ -56,6 +56,6 @@ public class Choice implements Serializable{
 	public void setPoll(Poll poll) {
 		this.poll = poll;
 	}
-	
-	
+
+
 }

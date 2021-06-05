@@ -1,1 +1,47 @@
-<p>polling-page works!</p>
+<div *ngIf="!dataLoading;else loading">
+  <div *ngIf="pollList.length>0" class="poll-container">
+    <h3 class="mb-2">Your Posted Poll(s)</h3>
+
+    <nz-card *ngFor="let item of pollList" class="mb-3">
+      <p class="text-creator" style="line-height: 0">Posted by <b>{{item.poll.createdBy}}</b></p>
+      <p class="text-creator">{{item.poll.createdDt | sDate}}</p>
+
+      <div class="text-question">
+        Question: {{item.poll.question}}
+      </div>
+
+      <div class="mt-3 text-choice">
+        <ng-container *ngIf=" item.choices.length <= 2">
+          <nz-radio-group [(ngModel)]="optionRadioValue">
+            <label *ngFor="let choice of item.choices" nz-radio [nzValue]="choice.answer">{{choice.answer}}</label>
+          </nz-radio-group>
+        </ng-container>
+
+        <ng-container *ngIf=" item.choices.length > 2">
+          <ng-container *ngFor="let choice of item.choices">
+            <label class="my-2" nz-checkbox>{{choice.answer}}</label>
+            <br/>
+          </ng-container>
+
+        </ng-container>
+
+      </div>
+
+      <div class="mt-3">
+        <button nz-button nzType="outline" class="mr-2" (click)="submitVote()">Vote</button>
+        {{1}} {{2 > 1 ? 'votes' : 'vote'}} • {{(item.poll.expiryDt | sDate)}}
+      </div>
+    </nz-card>
+  </div>
+
+  <div *ngIf="pollList.length===0" class="text-center">
+    <h3>
+      No Polls Found
+    </h3>
+  </div>
+
+</div>
+
+<ng-template #loading>
+  <nz-skeleton [nzLoading]="true" [nzActive]="true"></nz-skeleton>
+</ng-template>

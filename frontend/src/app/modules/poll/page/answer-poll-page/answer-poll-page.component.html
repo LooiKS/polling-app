@@ -1,0 +1,36 @@
+<div *ngIf="!dataLoading;else loading">
+  <div class="poll-container">
+    <h3 class="mb-2">Poll details</h3>
+
+    <nz-card class="mb-3">
+      <p class="text-creator" style="line-height: 0">Posted by <b>{{pollData.poll.createdBy}}</b></p>
+      <p class="text-creator">{{pollData.poll.createdDt | sDate}}</p>
+
+      <div class="text-question">
+        Question: {{pollData.poll.question}}
+      </div>
+
+      <div class="mt-3 text-choice">
+        <nz-radio-group [(ngModel)]="optionRadioValue">
+          <label *ngFor="let choice of pollData.choices" nz-radio [nzValue]="choice.answer">{{choice.answer}}</label>
+        </nz-radio-group>
+      </div>
+
+      <div class="mt-3">
+        <button nz-button nzType="outline" class="mr-2" (click)="submitVote()">Vote</button>
+        {{1}} {{2 > 1 ? 'votes' : 'vote'}} • {{(pollData.poll.expiryDt | sDate)}}
+      </div>
+    </nz-card>
+  </div>
+
+  <div *ngIf="!pollData" class="text-center">
+    <h3>
+      No Polls Found
+    </h3>
+  </div>
+
+</div>
+
+<ng-template #loading>
+  <nz-skeleton [nzLoading]="true" [nzActive]="true"></nz-skeleton>
+</ng-template>
