@@ -66,8 +66,8 @@ public class AuthService {
 				return ResponseModel.failed("The email is taken.");
 			} else if (!userDto.getEmail().matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
 				return ResponseModel.failed("The email is invalid.");
-			} else if (password.length() < 6 || password.length() > 20) {
-				return ResponseModel.failed("Password length must be between 6 - 20.");
+			// } else if (password.length() < 6 || password.length() > 20) {
+			// 	return ResponseModel.failed("Password length must be between 6 - 20.");
 			} else {
 				User user = new User();
 				user.setEmail(email);
