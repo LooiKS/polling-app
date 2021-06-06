@@ -37,10 +37,10 @@ export class AuthService {
         tap((res) => {
           if (res.status === 'success') {
             this.router
-              .navigate([
+              .navigateByUrl(
                 this.route.snapshot.queryParams['returnUrl'] ||
                   RoutesConstant.POLL,
-              ])
+              )
               .then();
           }
         })

@@ -49,12 +49,11 @@ export class LandingPageComponent implements OnInit {
   }
 
   submitVote(pollId: number): void {
-    if (this.isAuthenticated) {
-      this.router.navigate([RoutesConstant.POLL, RoutesConstant.ANSWER], {
-        queryParams: { pollId: pollId },
-      });
-    } else {
-      this.router.navigate([RoutesConstant.LOGIN]);
-    }
+    // can safely navigate even not authenticated, bcs it will be checked at AuthGuard.ts
+    // if (this.isAuthenticated) {
+    this.router.navigate([RoutesConstant.POLL, RoutesConstant.ANSWER], {
+      queryParams: { pollId: pollId },
+    });
+    // }
   }
 }
