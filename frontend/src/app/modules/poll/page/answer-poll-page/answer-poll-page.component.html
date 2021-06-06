@@ -17,10 +17,10 @@
         </nz-radio-group>
       </div>
       <div class="mt-3 text-choice" *ngIf="!allowedToVote">
-        <div nz-row *ngFor="let choice of pollData.choices; let i = index">
-          <div nz-col flex="auto">{{ choice.answer }}</div>
+        <div nz-row *ngFor="let choice of pollData.choices; let i = index" class="mt-2">
+          <div nz-col nzSpan="3" class="text-break">{{ choice.answer }}</div>
 
-          <div nz-col nzSpan="20" style="padding-left: 10px">
+          <div nz-col nzSpan="18" style="padding-left: 10px">
             <nz-progress
               [nzPercent]="getPercentage(i)"
               [nzShowInfo]="false"
