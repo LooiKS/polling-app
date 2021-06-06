@@ -2,6 +2,7 @@ package com.islow.polling.controllers;
 
 
 import com.islow.polling.dto.PollChoiceDto;
+import com.islow.polling.dto.PollChoiceVoteDto;
 import com.islow.polling.dto.ResponseModel;
 import com.islow.polling.services.PollService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,10 @@ public class PublicPollController {
     private PollService pollService;
 
     @GetMapping("/polls")
-    public ResponseModel<List<PollChoiceDto>> findPublicPolls() {
+//    public ResponseModel<List<PollChoiceDto>> findPublicPolls() {
+//        return ResponseModel.success(pollService.findAllPollsWithoutLogin());
+  public ResponseModel<List<PollChoiceVoteDto>> findPublicPolls() {
+
         return ResponseModel.success(pollService.findAllPollsWithoutLogin());
     }
 }

@@ -1,26 +1,33 @@
-import {Component, OnInit} from '@angular/core';
-import {AbstractControl, FormControl, FormGroup, Validators} from "@angular/forms";
-import {RoutesConstant} from "../../../../constant/routes.constant";
-import {markFormGroupTouched} from "../../../shared/util/form.util";
-import {AuthService} from "../../../shared/service/auth.service";
-import {SignUpModel} from "../../../shared/model/sign-up.model";
-import {tap} from "rxjs/operators";
+import { Component, OnInit } from '@angular/core';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { RoutesConstant } from '../../../../constant/routes.constant';
+import { markFormGroupTouched } from '../../../shared/util/form.util';
+import { AuthService } from '../../../shared/service/auth.service';
+import { SignUpModel } from '../../../shared/model/sign-up.model';
+import { tap } from 'rxjs/operators';
 import CryptoJS from 'crypto-js';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   templateUrl: './sign-up-page.component.html',
-  styleUrls: ['./sign-up-page.component.scss']
+  styleUrls: ['./sign-up-page.component.scss'],
 })
 export class SignUpPageComponent implements OnInit {
-
   signupForm: FormGroup;
   passwordVisible: boolean = false;
   signUpBtnDisable: boolean = true;
   signUpBtnLoading: boolean = false;
   routeConstant = RoutesConstant;
 
-  constructor(private authService: AuthService) {
-  }
+  constructor(
+    private authService: AuthService,
+    private modal: NzModalService
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -31,7 +38,11 @@ export class SignUpPageComponent implements OnInit {
       fullName: new FormControl(null, [Validators.required]),
       username: new FormControl(null, [Validators.required]),
       email: new FormControl(null, [Validators.required, Validators.email]),
-      password: new FormControl(null, [Validators.required, Validators.minLength(6), Validators.maxLength(20)])
+      password: new FormControl(null, [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(20),
+      ]),
     });
   }
 
@@ -45,12 +56,34 @@ export class SignUpPageComponent implements OnInit {
     signUpModel.password = CryptoJS.SHA256(this.password.value).toString();
 
     this.signUpBtnLoading = true;
-    this.authService.signUp(signUpModel).pipe(
-      tap(res => {
-        this.signUpBtnLoading = false;
-
-      })
-    ).subscribe();
+    this.authService
+      .signUp(signUpModel)
+      .pipe(
+        tap((res) => {
+          this.signUpBtnLoading = false;
+        })
+      )
+      .subscribe(
+        (data: any) => {
+          if (data.status == 'success') {
+            this.modal.success({
+              nzTitle: 'Registration',
+              nzContent: 'New account registered successfully',
+            });
+          } else {
+            this.modal.success({
+              nzTitle: 'Registration',
+              nzContent: data.errorMessage,
+            });
+          }
+        },
+        (error: any) => {
+          this.modal.success({
+            nzTitle: 'Registration',
+            nzContent: error,
+          });
+        }
+      );
   }
 
   passwordToggle(): void {

@@ -1,4 +1,4 @@
-import {environment} from "../../environments/environment";
+import { environment } from '../../environments/environment';
 
 export class ApiRoutesConstant {
   public static BASE_URL = environment.apiUrl;
@@ -9,10 +9,11 @@ export class ApiRoutesConstant {
   public static PARTICULAR = '/particular';
 
   public static LOGIN = '/login';
-  public static SIGNUP = '/signup';
+  public static REGISTER = '/register';
   public static LOGOUT = '/logout';
 
   public static CREATE = '/create';
   public static UPDATE = '/update';
   public static DELETE = '/delete';
+  public static VOTE = '/vote';
 }

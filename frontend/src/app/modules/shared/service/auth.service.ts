@@ -1,43 +1,56 @@
-import {Injectable} from "@angular/core";
-import {ApiRoutesConstant} from "../../../constant/api-routes.constant";
-import {HttpClient} from "@angular/common/http";
-import {ActivatedRoute, Router} from "@angular/router";
-import {tap} from "rxjs/operators";
-import {RoutesConstant} from "../../../constant/routes.constant";
-import {SignUpModel} from "../model/sign-up.model";
-import {UserModel} from "../model/user.model";
-import {Store} from "@ngxs/store";
-import {SetJWTToken} from "../../core/state/auth.action";
+import { Injectable } from '@angular/core';
+import { ApiRoutesConstant } from '../../../constant/api-routes.constant';
+import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
+import { tap } from 'rxjs/operators';
+import { RoutesConstant } from '../../../constant/routes.constant';
+import { SignUpModel } from '../model/sign-up.model';
+import { UserModel } from '../model/user.model';
+import { Store } from '@ngxs/store';
+import { SetJWTToken } from '../../core/state/auth.action';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-  readonly baseUrl: string = ApiRoutesConstant.BASE_URL + ApiRoutesConstant.AUTH;
+  readonly baseUrl: string =
+    ApiRoutesConstant.BASE_URL + ApiRoutesConstant.AUTH;
 
-  constructor(private http: HttpClient, private router: Router, private store: Store, private route: ActivatedRoute) {
-
-  }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private store: Store,
+    private route: ActivatedRoute
+  ) {}
 
   login(userInfo: UserModel) {
-    return this.http.post<any>(this.baseUrl + ApiRoutesConstant.LOGIN, userInfo, {}).pipe(
-      tap(res => {
-        if (res.status === 'success') {
-          localStorage.setItem('jwtToken', res.data.token);
-          sessionStorage.setItem('jwtToken', res.data.token);
-          this.store.dispatch(new SetJWTToken(res.data.token));
-        }
-      }),
-      tap(res => {
-        if (res.status === 'success') {
-          this.router.navigate([this.route.snapshot.queryParams['returnUrl'] || RoutesConstant.POLL]).then();
-        }
-      })
-    )
+    return this.http
+      .post<any>(this.baseUrl + ApiRoutesConstant.LOGIN, userInfo, {})
+      .pipe(
+        tap((res) => {
+          if (res.status === 'success') {
+            localStorage.setItem('jwtToken', res.data.token);
+            sessionStorage.setItem('jwtToken', res.data.token);
+            this.store.dispatch(new SetJWTToken(res.data.token));
+          }
+        }),
+        tap((res) => {
+          if (res.status === 'success') {
+            this.router
+              .navigate([
+                this.route.snapshot.queryParams['returnUrl'] ||
+                  RoutesConstant.POLL,
+              ])
+              .then();
+          }
+        })
+      );
   }
 
   signUp(signUpModel: SignUpModel) {
-    return this.http.post<any>(this.baseUrl + ApiRoutesConstant.SIGNUP, signUpModel);
+    return this.http.post<any>(
+      this.baseUrl + ApiRoutesConstant.REGISTER,
+      signUpModel
+    );
   }
-
 }

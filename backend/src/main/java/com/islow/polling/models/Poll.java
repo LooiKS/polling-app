@@ -40,6 +40,7 @@ public class Poll implements Serializable {
 	private Date expiryDt;
 
 	public Poll() {
+		
 	}
 
 	public Poll(String question, User createdBy, Date expiryDt) {

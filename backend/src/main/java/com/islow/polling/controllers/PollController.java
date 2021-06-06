@@ -1,8 +1,10 @@
 package com.islow.polling.controllers;
 
-import com.islow.polling.dto.PollChoiceDto;
-import com.islow.polling.dto.ResponseModel;
+import com.islow.polling.dto.VoteDto;
 import com.islow.polling.exceptions.ValidationException;
+import com.islow.polling.dto.PollChoiceDto;
+import com.islow.polling.dto.PollChoiceVoteDto;
+import com.islow.polling.dto.ResponseModel;
 import com.islow.polling.models.User;
 import com.islow.polling.services.AuthService;
 import com.islow.polling.services.PollService;
@@ -36,15 +38,26 @@ public class PollController {
     }
 
     @GetMapping("")
-    public ResponseModel<List<PollChoiceDto>> findPolls(Authentication authentication) throws AccountNotFoundException {
+    public ResponseModel<List<PollChoiceVoteDto>> findPolls(Authentication authentication) throws AccountNotFoundException {
         User user = authService.getUserByUsername(authentication.getName());
         return ResponseModel.success(pollService.findPolls(user.getUsername()));
     }
 
     @GetMapping("/particular")
-    public ResponseModel<PollChoiceDto> findParticularPolls(@RequestParam String pollId, Authentication authentication) throws AccountNotFoundException {
+    public ResponseModel<PollChoiceVoteDto> findParticularPolls(@RequestParam String pollId, Authentication authentication) throws AccountNotFoundException {
         User user = authService.getUserByUsername(authentication.getName());
         return ResponseModel.success(pollService.findParticularPoll(user.getUsername(), pollId));
+    }
+    
+    @PostMapping("/vote")
+    public ResponseModel<VoteDto> addVote(@RequestBody VoteDto voteDto,Authentication authentication) throws AccountNotFoundException {
+        User user = authService.getUserByUsername(authentication.getName());
+        try {
+        return ResponseModel.success(pollService.addVote(voteDto,user));
+        } catch (ValidationException e) {
+            return ResponseModel.failed(e.getMessage());
+        }
+        
     }
 
 }

@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import { NgModule } from '@angular/core';
 
 import { PollRoutingModule } from './poll-routing.module';
 import { PollingPageComponent } from './page/polling-page/polling-page.component';
@@ -11,10 +11,16 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { NzProgressModule } from 'ng-zorro-antd/progress';
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { AnswerPollPageComponent } from './page/answer-poll-page/answer-poll-page.component';
 
 @NgModule({
-  declarations: [PollingPageComponent, CreatePollingComponent, AnswerPollPageComponent],
+  declarations: [
+    PollingPageComponent,
+    CreatePollingComponent,
+    AnswerPollPageComponent,
+  ],
   imports: [
     SharedModule,
     PollRoutingModule,
@@ -25,7 +31,8 @@ import { AnswerPollPageComponent } from './page/answer-poll-page/answer-poll-pag
     NzDividerModule,
     NzButtonModule,
     NzAlertModule,
+    NzProgressModule,
+    NzDescriptionsModule,
   ],
 })
-export class PollModule {
-}
+export class PollModule {}

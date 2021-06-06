@@ -1,37 +1,39 @@
-<div *ngIf="!dataLoading;else loading">
-  <div class="poll-container text-end mb-3">
-    <a [routerLink]="['/poll/create']">
-      <button nz-button nzShape="round"><i nz-icon nzType="plus" class="align-text-top"></i>Create Poll</button>
-    </a>
-  </div>
-  <div *ngIf="pollList.length>0" class="poll-container">
-    <nz-card *ngFor="let item of pollList" class="mb-3">
-      <p class="text-creator" style="line-height: 0">Posted by <b>{{item.poll.createdBy}}</b></p>
-      <p class="text-creator">{{item.poll.createdDt | sDate}}</p>
+<div *ngIf="!dataLoading; else loading">
+    <div class="poll-container text-end mb-3">
+        <a [routerLink]="['/poll/create']">
+            <button nz-button nzShape="round">
+        <i nz-icon nzType="plus" class="align-text-top"></i>Create Poll
+      </button>
+        </a>
+    </div>
+    <div *ngIf="pollList.length > 0" class="poll-container">
+        <nz-card *ngFor="let item of pollList" class="mb-3">
+            <p class="text-creator" style="line-height: 0">
+                Posted by <b>{{ item.poll.createdBy }}</b>
+            </p>
+            <p class="text-creator">{{ item.poll.createdDt | sDate }}</p>
 
-      <div class="text-question">
-        Question: {{item.poll.question}}
-      </div>
+            <div class="text-question">Question: {{ item.poll.question }}</div>
 
-      <div class="mt-3 text-choice">
-        <p *ngFor="let choice of item.choices;let i = index"><b>{{i}}.{{choice.answer}}</b></p>
-      </div>
+            <div class="mt-3 text-choice">
+                <p *ngFor="let choice of item.choices; let i = index">
+                    <b>{{ i }}.{{ choice.answer }}</b>
+                </p>
+            </div>
 
-      <div class="mt-3">
-        <button nz-button nzType="outline" class="mr-2" (click)="submitVote(item.poll.id)">Vote</button>
-        {{1}} {{2 > 1 ? 'votes' : 'vote'}} • {{(item.poll.expiryDt | sDate)}}
-      </div>
-    </nz-card>
-  </div>
+            <div class="mt-3">
+                <button nz-button nzType="outline" class="mr-2" (click)="submitVote(item.poll.id)">
+          Vote
+        </button> {{ item.votes.length }} {{ item.votes.length > 1 ? "votes" : "vote" }} • {{ item.poll.expiryDt | sDate }}
+            </div>
+        </nz-card>
+    </div>
 
-  <div *ngIf="pollList.length===0" class="text-center">
-    <h3>
-      No Polls Found
-    </h3>
-  </div>
-
+    <div *ngIf="pollList.length === 0" class="text-center">
+        <h3>No Polls Found</h3>
+    </div>
 </div>
 
 <ng-template #loading>
-  <nz-skeleton [nzLoading]="true" [nzActive]="true"></nz-skeleton>
+    <nz-skeleton [nzLoading]="true" [nzActive]="true"></nz-skeleton>
 </ng-template>
