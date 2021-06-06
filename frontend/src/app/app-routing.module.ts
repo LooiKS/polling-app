@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {PublicLayoutComponent} from "./modules/core/layout/public-layout/public-layout.component";
 import {RoutesConstant} from "./constant/routes.constant";
 import {AuthGuard} from './modules/core/auth-guard/auth-guard';
+import { PreAuthGuard } from './modules/core/auth-guard/pre-auth-guard';
 
 const routes: Routes = [
   {
@@ -20,10 +21,12 @@ const routes: Routes = [
       },
       {
         path: RoutesConstant.LOGIN,
+        canActivate: [PreAuthGuard],
         loadChildren: () => import('./modules/sign-in/sign-in.module').then(m => m.SignInModule)
       },
       {
         path: RoutesConstant.REGISTER,
+        canActivate: [PreAuthGuard],
         loadChildren: () => import('./modules/sign-up/sign-up.module').then(m => m.SignUpModule)
       },
       {

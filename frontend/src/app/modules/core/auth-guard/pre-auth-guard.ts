@@ -6,7 +6,7 @@ import {SelectSnapshot} from "@ngxs-labs/select-snapshot";
 import {RoutesConstant} from "../../../constant/routes.constant";
 
 @Injectable({providedIn: "root"})
-export class AuthGuard implements CanActivate {
+export class PreAuthGuard implements CanActivate {
 
   @SelectSnapshot(AuthState.isAuthenticated) isAuthenticated;
 
@@ -15,17 +15,11 @@ export class AuthGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
 
-    console.log(state.url);
     if (this.isAuthenticated) {
-      // defined in routing module
-      // if (route.routeConfig.path.includes(RoutesConstant.POLL)) {
-        return true;
-      // }
+      this.router.navigate([RoutesConstant.POLL]);
+      return false;
     } else {
-      // if (route.routeConfig.path.includes(RoutesConstant.LOGIN) || route.routeConfig.path.includes(RoutesConstant.REGISTER)) {
-        // return true;
-      // }
-      this.router.navigate([RoutesConstant.LOGIN], {queryParams: {'returnUrl': state.url}});
+      return true;
     }
   }
 
