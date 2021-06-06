@@ -92,6 +92,18 @@ export class AnswerPollPageComponent implements OnInit {
     }
   }
 
+  getTooltipText(): String {
+    if (this.pollData.poll.createdBy.toUpperCase() === this.username) {
+      return 'Author of the poll is not allowed to answer.';
+    } else if (this.pollData.poll.expiryDt < new Date()) {
+      return 'The poll is expired.';
+    } else if (
+      this.pollData.votes.some((vote) => vote.votedBy === this.username)
+    ) {
+      return 'You have voted this poll already.';
+    }
+  }
+
   submitVote(): void {
     if (this.optionRadioValue != null && this.allowedToVote == true) {
       let voteDto: VoteDto = {

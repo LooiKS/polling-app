@@ -1,5 +1,6 @@
 package com.islow.polling.services;
 
+import com.islow.polling.PollingApplication;
 import com.islow.polling.dto.ChoiceDto;
 import com.islow.polling.dto.PollChoiceDto;
 import com.islow.polling.dto.PollChoiceVoteDto;
@@ -15,6 +16,8 @@ import com.islow.polling.repository.PollRepository;
 import com.islow.polling.repository.VoteRepository;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +41,7 @@ public class PollService {
 
     @Autowired
     private VoteRepository voteRepository;
-    
+
     public PollChoiceDto addPoll(PollChoiceDto pollChoiceDto, User user) throws ValidationException {
 
         // save poll
@@ -119,22 +122,22 @@ public class PollService {
 
     }
 
-    public List<PollChoiceVoteDto> findPolls(String username) {
-        List<Poll> polls = pollRepository.findPolls(username);
+    public List<PollChoiceVoteDto> findPolls(User user) {
+        List<Poll> polls = pollRepository.findAllByCreatedBy(user);
 
         Iterable<Choice> choices = choiceRepository.findAll();
         List<Choice> choiceList =
                 StreamSupport.stream(choices.spliterator(), false)
                         .collect(Collectors.toList());
         List<PollChoiceVoteDto> pollChoiceVoteDto = new ArrayList<>();
-        
+
         Iterable<Vote> votes = voteRepository.findAll();
 
         List<Vote> voteList =
                 StreamSupport.stream(votes.spliterator(), false)
                         .collect(Collectors.toList());
 
-        if (!polls.isEmpty() && !choiceList.isEmpty()) {
+        if (polls!=null && !choiceList.isEmpty()) {
         	pollChoiceVoteDto = pollChoiceVoteMapping(polls, choiceList,voteList);
         }
 
@@ -142,7 +145,7 @@ public class PollService {
     }
 
     public PollChoiceVoteDto findParticularPoll(String username, String pollId) {
-        Poll poll = pollRepository.findPollByPollId(pollId);
+        Poll poll = pollRepository.findPollById(parseLong(pollId));
 
         Iterable<Choice> choices = choiceRepository.findAll();
         List<Choice> choiceList =
@@ -154,7 +157,7 @@ public class PollService {
                 StreamSupport.stream(votes.spliterator(), false)
                         .collect(Collectors.toList());
 
-        
+
         PollChoiceVoteDto pollChoiceVoteDto = new PollChoiceVoteDto();
 
 
@@ -165,14 +168,14 @@ public class PollService {
                 ChoiceDto choiceDto = new ChoiceDto(choice);
                 choiceDtoList.add(choiceDto);
             });
-            
+
             List<Vote> votesList = voteList.stream().filter(vote -> vote.getPollID().getId().equals(parseLong(pollId))).collect(Collectors.toList());
             List<VoteDto> voteDtoList = new ArrayList<>();
             votesList.forEach(vote -> {
             	VoteDto voteDto = new VoteDto(vote);
                 voteDtoList.add(voteDto);
             });
-            
+
             PollDto pollDto = new PollDto(poll);
             pollChoiceVoteDto = new PollChoiceVoteDto(pollDto, choiceDtoList,voteDtoList);
         }

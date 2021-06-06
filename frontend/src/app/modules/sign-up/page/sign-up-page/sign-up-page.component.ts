@@ -1,17 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { RoutesConstant } from '../../../../constant/routes.constant';
-import { markFormGroupTouched } from '../../../shared/util/form.util';
-import { AuthService } from '../../../shared/service/auth.service';
-import { SignUpModel } from '../../../shared/model/sign-up.model';
-import { tap } from 'rxjs/operators';
+import {Component, OnInit} from '@angular/core';
+import {AbstractControl, FormControl, FormGroup, Validators,} from '@angular/forms';
+import {RoutesConstant} from '../../../../constant/routes.constant';
+import {markFormGroupTouched} from '../../../shared/util/form.util';
+import {AuthService} from '../../../shared/service/auth.service';
+import {SignUpModel} from '../../../shared/model/sign-up.model';
+import {tap} from 'rxjs/operators';
 import CryptoJS from 'crypto-js';
-import { NzModalService } from 'ng-zorro-antd/modal';
+import {NzModalService} from 'ng-zorro-antd/modal';
+import {Router} from "@angular/router";
 
 @Component({
   templateUrl: './sign-up-page.component.html',
@@ -26,8 +22,10 @@ export class SignUpPageComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private modal: NzModalService
-  ) {}
+    private modal: NzModalService,
+    private router: Router
+  ) {
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -69,6 +67,9 @@ export class SignUpPageComponent implements OnInit {
             this.modal.success({
               nzTitle: 'Registration',
               nzContent: 'New account registered successfully',
+              nzOnOk: () => {
+                this.router.navigate(['/']);
+              }
             });
           } else {
             this.modal.success({
