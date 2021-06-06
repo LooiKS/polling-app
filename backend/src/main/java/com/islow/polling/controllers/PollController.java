@@ -40,7 +40,7 @@ public class PollController {
     @GetMapping("")
     public ResponseModel<List<PollChoiceVoteDto>> findPolls(Authentication authentication) throws AccountNotFoundException {
         User user = authService.getUserByUsername(authentication.getName());
-        return ResponseModel.success(pollService.findPolls(user.getUsername()));
+        return ResponseModel.success(pollService.findPolls(user));
     }
 
     @GetMapping("/particular")
