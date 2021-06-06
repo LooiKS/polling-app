@@ -14,6 +14,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { AnswerPollPageComponent } from './page/answer-poll-page/answer-poll-page.component';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { AnswerPollPageComponent } from './page/answer-poll-page/answer-poll-pag
     NzAlertModule,
     NzProgressModule,
     NzDescriptionsModule,
+    NzToolTipModule,
   ],
 })
 export class PollModule {}

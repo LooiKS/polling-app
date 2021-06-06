@@ -17,7 +17,11 @@
         </nz-radio-group>
       </div>
       <div class="mt-3 text-choice" *ngIf="!allowedToVote">
-        <div nz-row *ngFor="let choice of pollData.choices; let i = index" class="mt-2">
+        <div
+          nz-row
+          *ngFor="let choice of pollData.choices; let i = index"
+          class="mt-2"
+        >
           <div nz-col nzSpan="3" class="text-break">{{ choice.answer }}</div>
 
           <div nz-col nzSpan="18" style="padding-left: 10px">
@@ -46,16 +50,18 @@
         >
           Vote
         </button>
-        <button
-          *ngIf="!allowedToVote"
-          nz-button
-          nzType="outline"
-          class="mr-2"
-          (click)="submitVote()"
-          disabled
+        <span nz-tooltip [nzTooltipTitle]="getTooltipText()">
+          <button
+            *ngIf="!allowedToVote"
+            nz-button
+            nzType="outline"
+            class="mr-2"
+            (click)="submitVote()"
+            disabled
+          >
+            Vote
+          </button></span
         >
-          Vote
-        </button>
         {{ pollData.votes.length }}
         {{ pollData.votes.length > 1 ? "votes" : "vote" }} •
         {{ pollData.poll.expiryDt | sDate }}
