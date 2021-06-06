@@ -5,6 +5,7 @@ import javax.security.auth.login.AccountNotFoundException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +18,7 @@ import com.islow.polling.configuration.CustomUserDetailService;
 import com.islow.polling.dto.JwtToken;
 import com.islow.polling.dto.RegisterUserDto;
 import com.islow.polling.dto.ResponseModel;
+import com.islow.polling.exceptions.ValidationException;
 import com.islow.polling.models.User;
 import com.islow.polling.provider.JwtTokenProvider;
 import com.islow.polling.repository.UserRepository;
@@ -45,28 +47,27 @@ public class AuthService {
 	}
 
 	@Transactional
-	public ResponseModel<String> addUser(RegisterUserDto userDto) {
+	public String addUser(RegisterUserDto userDto) throws ValidationException {
 		String username = userDto.getUsername();
 		String password = userDto.getPassword();
 		String fullName = userDto.getFullName();
 		String email = userDto.getEmail();
 
 		if (StringUtils.isBlank(username)) {
-			return ResponseModel.failed("Username is required.");
+			throw new ValidationException("Username is required.");
 		} else if (StringUtils.isBlank(password)) {
-			return ResponseModel.failed("Password is required.");
+			throw new ValidationException("Password is required.");
 		} else if (StringUtils.isBlank(fullName)) {
-			return ResponseModel.failed("Fullname is required.");
+			throw new ValidationException("Fullname is required.");
 		} else if (StringUtils.isBlank(email)) {
-			return ResponseModel.failed("Email is required.");
+			throw new ValidationException("Email is required.");
 		} else {
 			if (userRepository.existsById(userDto.getUsername())) {
-				return ResponseModel.failed("The username is taken.");
+				throw new ValidationException("The username is taken.");
 			} else if (userRepository.existsByEmail(userDto.getEmail())) {
-				return ResponseModel.failed("The email is taken.");
+				throw new ValidationException("The email is taken.");
 			} else if (!userDto.getEmail().matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
-				return ResponseModel.failed("The email is invalid.");
-
+				throw new ValidationException("The email is invalid.");
 			} else {
 				User user = new User();
 				user.setEmail(email);
@@ -75,21 +76,21 @@ public class AuthService {
 				user.setPassword("{noop}" + password);
 
 				user = userRepository.save(user);
-				return ResponseModel.success("Success");
+				return "Success";
 			}
 		}
 	}
 
 	@Transactional
-	public ResponseModel<JwtToken> login(String username, String password) {
+	public JwtToken login(String username, String password) throws ValidationException{
 		try {
 			UserDetails user = customUserDetailService.loadUserByUsername(username);
 			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user, password);
 			Authentication authentication = authenticationManager.authenticate(authToken);
 			SecurityContextHolder.getContext().setAuthentication(authentication);
-			return ResponseModel.success(new JwtToken(jwtTokenProvider.createToken(username)));
-		} catch (Exception ex) {
-			return ResponseModel.failed("Wrong credential." + ex.getMessage() + username + " " + password);
+			return new JwtToken(jwtTokenProvider.createToken(username));
+		} catch (BadCredentialsException ex) {
+			throw new ValidationException("Wrong credential.");
 		}
 	}
 }
