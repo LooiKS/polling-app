@@ -2,6 +2,9 @@
 
 ### This is a simple polling app for the assignment of Software Construction
 
+##### Group Name:
+iSlow
+
 ##### Group Members:
 1. Chin Chee Kean A17CS0032
 2. Chan Chee Yon A17CS0030
