@@ -18,3 +18,8 @@ iSlow
 5. View list of poll
 6. Vote a poll
 7. View poll result
+
+##### Frameworks Used:
+1. Spring Boot
+2. Angular
+3. Bootstrap
